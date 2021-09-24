@@ -1,0 +1,95 @@
+{
+    "shoes": [
+      {
+        "id": 0,
+        "imageUrl": "https://images.ru.prom.st/897659712_w500_h500_krossovki-nike-air.jpg",
+        "name": "Кроссовки Nike",
+        "sizes": [39, 40, 41, 42, 43],
+        "price": 3800,
+        "color": "белый",
+        "popular": 2,
+        "category": 0
+      },
+      {
+        "id": 1,
+        "imageUrl": "https://static.onlinetrade.ru/img/items/b/860224_1.jpg",
+        "name": "Кроссовки Reebok",
+        "sizes": [39, 40, 41, 42, 43, 44, 45],
+        "price": 4500,
+        "color": "черный",
+        "popular": 1,
+        "category": 1
+      },
+      {
+        "id": 2,
+        "imageUrl": "https://images.ru.prom.st/602455414_w640_h640_krossovki-adidas-superstar.jpg",
+        "name": "Кеды Adidas",
+        "sizes": [39, 40, 41, 42, 43, 44, 45],
+        "price": 3300,
+        "color": "белый",
+        "popular": 3,
+        "category": 0
+      },
+      {
+        "id": 3,
+        "imageUrl": "https://static.onlinetrade.ru/img/items/b/1118445_1.jpg",
+        "name": "Кроссовки Puma",
+        "sizes": [39, 40, 41, 42, 43, 44, 45],
+        "price": 4100,
+        "color": "черный",
+        "popular": 4,
+        "category": 1
+      },
+      {
+        "id": 4,
+        "imageUrl": "https://extrasport.online/pictures/product/big/6627_big.jpg",
+        "name": "Кроссовки New Balance",
+        "sizes": [39, 40, 41, 42, 43, 44, 45],
+        "price": 5100,
+        "color": "синий",
+        "popular": 6,
+        "category": 3
+      },
+      {
+        "id": 5,
+        "imageUrl": "https://gosport.shop/upload/goods/8a/32/8a32313d44056b1943e21f305d40e2c6.",
+        "name": "Кроссовки Under Armour",
+        "sizes": [39, 40, 41, 42, 43, 44, 45],
+        "price": 4000,
+        "color": "синий",
+        "popular": 5,
+        "category": 3
+      },
+      {
+        "id": 6,
+        "imageUrl": "https://cdn.skechers.ru/upload/mdm/media_content/resize/adf/462_409_81dd/26185990299.jpg",
+        "name": "Кроссовки Sketchers",
+        "sizes": [39, 40, 41, 42, 43, 44, 45],
+        "price": 4600,
+        "color": "красный",
+        "popular": 8,
+        "category": 2
+      },
+      {
+        "id": 7,
+        "imageUrl": "https://i.pinimg.com/originals/87/42/21/874221bc66cb4ebc05c9227bed34d95d.jpg",
+        "name": "Кроссовки AirJordan",
+        "sizes": [39, 40, 41, 42, 43, 44, 45],
+        "price": 6000,
+        "color": "красный",
+        "popular": 9,
+        "category": 2
+      },
+      {
+        "id": 8,
+        "imageUrl": "https://www.sport-kupi.ru/netcat_files/16/19/Krossovki_Asics_Gel_Lyte_Gs_1194A016_100.jpg",
+        "name": "Кроссовки Asics",
+        "sizes": [39, 40, 41, 42, 43, 44, 45],
+        "price": 3100,
+        "color": "белый",
+        "popular": 10,
+        "category": 0
+      }
+    ]
+  }
+  

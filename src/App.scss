@@ -1,0 +1,213 @@
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  font-size: 18px;
+  background-color: lightblue;
+  font-family: 'Mukta', sans-serif;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  border: 2px solid lightblue;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.6;
+  color: white;
+  background-color: lightblue;
+}
+
+.active {
+  opacity: 0.6;
+  color: white;
+  background-color: lightblue; 
+}
+
+.hide {
+  display: none;
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 100px auto;
+  background-color: white;
+  border-radius: 50px;
+  padding: 70px;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &_logo {
+      border-radius: 30px;
+    }
+    &_buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 200px;
+      &_basket, &_join {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        img {
+          width: 50px;
+          height: 70px;
+        }
+      }
+    }
+    &_count {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      border: 2px solid lightblue;
+      border-radius: 50%;
+      background-color: #fff;
+      padding:5px 10px;
+    }
+  }
+  .main_wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 50px;
+    .filter {
+      display: flex;
+      align-items: center;
+      &_list {
+        display: flex;
+        justify-content: space-between;
+        width: 450px;
+        padding-left: 20px;
+      }
+    }
+    .sort {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      &_header {
+        margin: 8px;
+        &_btn {
+          text-decoration: underline dashed;
+          border: none;
+          &:hover {
+            color: lightblue;
+            background-color: transparent;
+          }
+        }
+      }
+      &_wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: lightblue;
+        border-radius: 20px;
+        padding: 15px;
+        margin-top: 0px;
+        &_btn {
+          border: none;
+          cursor: pointer;
+          padding: 0;
+          color: inherit;
+          background-color: transparent;
+          color: blue;
+          padding: 5px;
+        }
+      }
+    }
+  }
+  .shoes {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 50px;
+    justify-items: center;
+    align-content: center;
+    width: 100%;
+    margin: 0 auto;
+    padding-bottom: 30px;
+    & h3 {
+      font-size: 16px;
+    }
+    & img {
+      width: 300px;
+      height: 270px;
+    }
+    &_item {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    &_name {
+      font-size: 20px;
+      padding: 0;
+      margin: 10px;
+    }
+    &_price, &_size, &_color  {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      height: 35px;
+      h3 {
+        margin-right: 15px;
+      }
+    }
+    &_size {
+      justify-content: space-between;
+      width: 320px;
+      font-size: 14px;
+      &_list {
+        display: flex;
+        justify-content: space-between;
+        width: 280px;
+        padding: 0px;
+      }
+      &_btn {
+        font-size: 12px;
+        padding: 2px 5px;
+      }
+    }
+    &_add {
+      font-size: 20px;
+      color: blue;
+      margin: 20px;
+      padding: 10px;
+    }
+  }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    &_social {
+      display: flex;
+      justify-content: space-between;
+      width: 200px;
+    }
+    &_logo {
+      border-radius: 10px;
+      width: 200px;
+    }
+  }
+}
+
+
+
+
+
+
+
+
