@@ -4,7 +4,7 @@ import {useState} from 'react';
 function Sort({sortItems, sortBy, onClickSort}) {
   const [visibleList, setVisibleList] = useState(false);
 
-  const activeSortItem = sortItems.find(item => item.type === sortBy).name
+  const activeSortItem = sortItems.find(item => item.type === sortBy).name;
 
 
   function hideList() {
