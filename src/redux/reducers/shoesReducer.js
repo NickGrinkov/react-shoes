@@ -1,5 +1,5 @@
 const initialState = {
-    shoes: []
+    shoes: [],
 }
 
 export const shoesReducer = (state = initialState, action) => {

@@ -19,7 +19,6 @@ function Home() {
 
     const dispatch = useDispatch();
     const category = useSelector(state => state.filter.category);
-    const activeSize = useSelector(state => state.size.active);
     const sortBy = useSelector(state => state.sort.sortBy);
     const shoes = useSelector(state => state.shoes.shoes);
 

@@ -1,13 +1,22 @@
 import React from "react";
 import { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { addItemToCart } from '../redux/actions/addItemAction';
 
 
 function ShoeItem({onClickSize, sizeElem, id, name, price, color, imageUrl, sizes}) {
+  const dispatch  = useDispatch()
+  const item = useSelector(state => state.addItem.totalCount)
   
   const [active, setActive] = useState(0)
 
+  
   function activeItem(ind) {
     setActive(ind)
+  }
+
+  const addItemToCart = () => {
+    dispatch(addItemToCart())
   }
 
 
@@ -40,7 +49,7 @@ function ShoeItem({onClickSize, sizeElem, id, name, price, color, imageUrl, size
         }
         </ul>
       </div>
-      <button className="shoes_add">Добавить в корзину</button>
+      <button className="shoes_add" onClick={() => addItemToCart}>Добавить в корзину</button>
     </div>
   );
 }

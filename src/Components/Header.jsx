@@ -4,6 +4,7 @@ import MainLogo from '../assets/img/ReactShoesLogo.png';
 import Basket from '../assets/img/basketLogo.svg';
 import Join from '../assets/img/joinLogo.svg';
 
+
 function Header() {
     return (
         <header className="header">
