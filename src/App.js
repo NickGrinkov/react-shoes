@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
-import "./App.scss";
-import Card from './components/Card/Card';
-import Header from './components/Header';
+import { Route, Routes } from "react-router";
+import Header from './pages/Header';
+import Home from './pages/Home';
+import Favorites from "./pages/Favorites";
 import SideCart from './components/SideCart/SideCart';
+import "./App.scss";
 
 function App() {
   const [items, setItems] = useState([])
@@ -17,15 +19,12 @@ function App() {
       .then(({data}) => setItems(data))
       axios.get("https://619dbd59131c600017088fe7.mockapi.io/cart")
       .then(({data}) => setCartItems(data))
+      axios.get("https://619dbd59131c600017088fe7.mockapi.io/favorites")
+      .then(({data}) => setFavorites(data))
   }, [])
 
   const toggleSideCart = () => {
     setvisible(!visible)
-  }
-
-  const onAddToCart = (obj) => {
-    axios.post("https://619dbd59131c600017088fe7.mockapi.io/cart", obj)
-    setCartItems(prev => [...prev, obj])
   }
 
   const onRemoveCartItem = (obj) => {
@@ -33,17 +32,23 @@ function App() {
     setCartItems(prev => prev.filter((item) => item !== obj))
   }
 
-  const toggleCartItem = (obj) => {
+  const onAddToCart = (obj) => {
     if(cartItems.includes(obj)) {
       onRemoveCartItem(obj)
     } else {
-      onAddToCart(obj)
+      axios.post("https://619dbd59131c600017088fe7.mockapi.io/cart", obj)
+      setCartItems(prev => [...prev, obj])
     }
   }
 
   const onAddToFavorite = (obj) => {
-    axios.post("https://619dbd59131c600017088fe7.mockapi.io/favorites", obj)
-    setFavorites(prev => [...prev, obj])
+    if(favorites.includes(obj)) {
+        axios.delete(`https://619dbd59131c600017088fe7.mockapi.io/favorites/${obj.id}`)
+        setFavorites(prev => prev.filter(item => item !== obj))
+    } else {
+        axios.post("https://619dbd59131c600017088fe7.mockapi.io/favorites", obj)
+        setFavorites(prev => [...prev, obj])
+    }
   }
 
   const onChangeSearchInput = (e) => {
@@ -52,31 +57,22 @@ function App() {
   
   return (
     <div className="wrapper">
-      {
-        visible && <SideCart onRemove={(obj) => onRemoveCartItem(obj)} items={cartItems} visible={visible} toggleSideCart={toggleSideCart}/>
-      }   
-      <Header toggleSideCart={toggleSideCart}/>
-      <main className="main">
-        <div className="main__header">
-          <h1>{searchValue ? `Поиск по запросу: "${searchValue}"` : 'Все кроссовки'}</h1>
-          <div className="search">
-            <img src="/img/search.svg" alt="search" />
-            <input onChange={onChangeSearchInput} value={searchValue} type="text" placeholder="Поиск..." />
-          </div>
-        </div>
-        <div className="shoes">
-          {
-            items.filter(item => item.name.toLowerCase().includes(searchValue.toLowerCase()))
-            .map((card) => <Card 
-            toggleCartItem={toggleCartItem} 
-            key={card.id} 
-            card={card}
-            onFavorite={onAddToFavorite}
-            />
-            )
-          }
-        </div>
-      </main>
+        {
+          visible && <SideCart onRemove={(obj) => onRemoveCartItem(obj)} items={cartItems} visible={visible} toggleSideCart={toggleSideCart}/>
+        }   
+        <Header toggleSideCart={toggleSideCart}/>
+        <Routes>
+          <Route path="/" element={
+            <Home 
+              items={items} 
+              searchValue={searchValue} 
+              onChangeSearchInput={onChangeSearchInput} 
+              onAddToCart={onAddToCart}
+              onAddToFavorite={onAddToFavorite}
+              />
+          }/>
+          <Route path="/favorites" element={<Favorites items={favorites} onAddToFavorite={onAddToFavorite}/>}/>
+        </Routes>
     </div>
   );
 }

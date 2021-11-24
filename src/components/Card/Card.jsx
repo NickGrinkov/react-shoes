@@ -1,16 +1,16 @@
 import React, {useState} from "react";
 import styles from  './Card.module.scss';
 
-function Card({card, toggleCartItem}) {
+function Card({card, onAddToCart, onFavorite, favorited = false}) {
   const [isAdded, setIsAdded] = useState(false)
-  const [isFavorite, setIsFavorite] = useState(false)
-
+  const [isFavorite, setIsFavorite] = useState(favorited)
   const onClickAdd = () => {
-    toggleCartItem(card)
+    onAddToCart(card)
     setIsAdded(!isAdded)
   }
 
   const onClickFavorite = () => {
+    onFavorite(card)
     setIsFavorite(!isFavorite)
   }
   return (
