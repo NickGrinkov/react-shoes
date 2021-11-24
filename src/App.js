@@ -3,11 +3,12 @@ import axios from "axios";
 import "./App.scss";
 import Card from './components/Card/Card';
 import Header from './components/Header';
-import SideCart from './components/SideCart';
+import SideCart from './components/SideCart/SideCart';
 
 function App() {
   const [items, setItems] = useState([])
   const [cartItems, setCartItems] = useState([])
+  const [favorites, setFavorites] = useState([])
   const [visible, setvisible] = useState(false)
   const [searchValue, setSearchValue] = useState('')
 
@@ -32,6 +33,19 @@ function App() {
     setCartItems(prev => prev.filter((item) => item !== obj))
   }
 
+  const toggleCartItem = (obj) => {
+    if(cartItems.includes(obj)) {
+      onRemoveCartItem(obj)
+    } else {
+      onAddToCart(obj)
+    }
+  }
+
+  const onAddToFavorite = (obj) => {
+    axios.post("https://619dbd59131c600017088fe7.mockapi.io/favorites", obj)
+    setFavorites(prev => [...prev, obj])
+  }
+
   const onChangeSearchInput = (e) => {
     setSearchValue(e.target.value)
   }
@@ -53,7 +67,13 @@ function App() {
         <div className="shoes">
           {
             items.filter(item => item.name.toLowerCase().includes(searchValue.toLowerCase()))
-            .map((card) => <Card onPlus={(obj) => onAddToCart(obj)} key={card.id} card={card}/>)
+            .map((card) => <Card 
+            toggleCartItem={toggleCartItem} 
+            key={card.id} 
+            card={card}
+            onFavorite={onAddToFavorite}
+            />
+            )
           }
         </div>
       </main>

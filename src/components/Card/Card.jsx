@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import styles from  './Card.module.scss';
 
-function Card({card, onPlus}) {
+function Card({card, toggleCartItem}) {
   const [isAdded, setIsAdded] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
 
   const onClickAdd = () => {
-    onPlus(card)
+    toggleCartItem(card)
     setIsAdded(!isAdded)
   }
 
