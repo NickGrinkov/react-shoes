@@ -1,7 +1,29 @@
 import React from "react";
 import Card from '../components/Card/Card';
 
-function Home({searchValue, onChangeSearchInput, items, cartItems, onAddToCart, onAddToFavorite}) {
+function Home({searchValue, 
+      onChangeSearchInput, 
+      items, 
+      cartItems, 
+      onAddToCart, 
+      onAddToFavorite, 
+      isLoading
+}) {
+
+   const renderItems = () => {
+     const filteredItems = items.filter(item => item.name.toLowerCase().includes(searchValue.toLowerCase()))
+     return (isLoading ? [...Array(8)] : filteredItems).map((item, index) => (
+            <Card
+              onAddToCart={onAddToCart}
+              key={item && item.id}
+              card={item}
+              onFavorite={onAddToFavorite}
+              loading={isLoading} 
+            />
+          ))
+   } 
+
+
   return (
     <main className="main">
       <div className="main__header">
@@ -19,20 +41,7 @@ function Home({searchValue, onChangeSearchInput, items, cartItems, onAddToCart, 
         </div>
       </div>
       <div className="shoes">
-        {items
-          .filter((item) =>
-            item.name.toLowerCase().includes(searchValue.toLowerCase())
-          )
-          .map((card) => (
-            <Card
-              onAddToCart={onAddToCart}
-              key={card.id}
-              card={card}
-              onFavorite={onAddToFavorite}
-              added={cartItems.some(obj => obj.id === card.id)}
-              loading={false} 
-            />
-          ))}
+        {renderItems()}
       </div>
     </main>
   );

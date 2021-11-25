@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { Route, Routes } from "react-router";
+import AppContext from "./context";
 import Header from './pages/Header';
 import Home from './pages/Home';
 import Favorites from "./pages/Favorites";
@@ -13,12 +14,15 @@ function App() {
   const [favorites, setFavorites] = useState([])
   const [visible, setvisible] = useState(false)
   const [searchValue, setSearchValue] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     async function fetchData() {
       const itemsResponse  = await axios.get("https://619dbd59131c600017088fe7.mockapi.io/items")
       const cartItemsResponse  = await axios.get("https://619dbd59131c600017088fe7.mockapi.io/cart")
       const favoritesResponse = await  axios.get("https://619dbd59131c600017088fe7.mockapi.io/favorites")
+
+      setIsLoading(false)
 
       setCartItems(cartItemsResponse.data)
       setFavorites(favoritesResponse.data)
@@ -59,8 +63,13 @@ function App() {
   const onChangeSearchInput = (e) => {
     setSearchValue(e.target.value)
   }
+
+  const isItemAdded = (id) => {
+    return cartItems.some(obj => Number(obj.id)  === Number(id))
+  }
   
   return (
+    <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded, onAddToFavorite}}>
     <div className="wrapper">
         {
           visible && <SideCart onRemove={(obj) => onRemoveCartItem(obj)} items={cartItems} visible={visible} toggleSideCart={toggleSideCart}/>
@@ -74,12 +83,13 @@ function App() {
               cartItems={cartItems}
               onChangeSearchInput={onChangeSearchInput} 
               onAddToCart={onAddToCart}
-              onAddToFavorite={onAddToFavorite}
+              isLoading={isLoading}
               />
           }/>
-          <Route path="/favorites" element={<Favorites items={favorites} onAddToFavorite={onAddToFavorite}/>}/>
+          <Route path="/favorites" element={<Favorites/>}/>
         </Routes>
     </div>
+    </AppContext.Provider>
   );
 }
 

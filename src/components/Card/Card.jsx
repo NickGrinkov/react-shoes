@@ -1,25 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ContentLoader from "react-content-loader";
 import styles from "./Card.module.scss";
+import AppContext from "../../context";
 
 function Card({
   card,
   onAddToCart,
-  onFavorite,
   favorited = false,
-  added = false,
   loading = false,
 }) {
-  const [isAdded, setIsAdded] = useState(added);
+
+  const { isItemAdded, onAddToFavorite } = useContext(AppContext)
   const [isFavorite, setIsFavorite] = useState(favorited);
 
   const onClickAdd = () => {
     onAddToCart(card);
-    setIsAdded(!isAdded);
   };
 
   const onClickFavorite = () => {
-    onFavorite(card);
+    onAddToFavorite(card);
     setIsFavorite(!isFavorite);
   };
   return (
@@ -58,7 +57,7 @@ function Card({
             <img
               onClick={onClickAdd}
               className={styles.add}
-              src={isAdded ? "/img/btn-checked.svg" : "/img/btn-plus.svg"}
+              src={isItemAdded(card.id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"}
               alt="add-btn"
             />
           </div>
