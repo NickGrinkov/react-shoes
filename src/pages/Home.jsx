@@ -1,7 +1,7 @@
 import React from "react";
 import Card from '../components/Card/Card';
 
-function Home({searchValue, onChangeSearchInput, items, onAddToCart, onAddToFavorite}) {
+function Home({searchValue, onChangeSearchInput, items, cartItems, onAddToCart, onAddToFavorite}) {
   return (
     <main className="main">
       <div className="main__header">
@@ -29,6 +29,8 @@ function Home({searchValue, onChangeSearchInput, items, onAddToCart, onAddToFavo
               key={card.id}
               card={card}
               onFavorite={onAddToFavorite}
+              added={cartItems.some(obj => obj.id === card.id)}
+              loading={false} 
             />
           ))}
       </div>

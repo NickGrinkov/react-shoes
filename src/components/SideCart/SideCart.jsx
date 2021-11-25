@@ -54,7 +54,7 @@ function SideCart({ toggleSideCart, visible, items, onRemove }) {
           </div>
         ) : (
           <div className={styles.emty}>
-            <img className="" src="/img/empty-cart.jpg" width="120px" alt="empty" />
+            <img src="/img/empty-cart.jpg" width="120px" alt="empty" />
             <h2>Корзина пустая</h2>
             <p className="">Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ</p>
             <button className='main-btn back-btn'>

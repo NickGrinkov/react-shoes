@@ -15,12 +15,17 @@ function App() {
   const [searchValue, setSearchValue] = useState('')
 
   useEffect(() => {
-    axios.get("https://619dbd59131c600017088fe7.mockapi.io/items")
-      .then(({data}) => setItems(data))
-      axios.get("https://619dbd59131c600017088fe7.mockapi.io/cart")
-      .then(({data}) => setCartItems(data))
-      axios.get("https://619dbd59131c600017088fe7.mockapi.io/favorites")
-      .then(({data}) => setFavorites(data))
+    async function fetchData() {
+      const itemsResponse  = await axios.get("https://619dbd59131c600017088fe7.mockapi.io/items")
+      const cartItemsResponse  = await axios.get("https://619dbd59131c600017088fe7.mockapi.io/cart")
+      const favoritesResponse = await  axios.get("https://619dbd59131c600017088fe7.mockapi.io/favorites")
+
+      setCartItems(cartItemsResponse.data)
+      setFavorites(favoritesResponse.data)
+      setItems(itemsResponse.data)
+    }
+
+    fetchData()
   }, [])
 
   const toggleSideCart = () => {
@@ -33,12 +38,12 @@ function App() {
   }
 
   const onAddToCart = (obj) => {
-    if(cartItems.includes(obj)) {
-      onRemoveCartItem(obj)
-    } else {
-      axios.post("https://619dbd59131c600017088fe7.mockapi.io/cart", obj)
-      setCartItems(prev => [...prev, obj])
-    }
+      if(cartItems.includes(obj)) {
+        onRemoveCartItem(obj)
+      } else {
+        axios.post("https://619dbd59131c600017088fe7.mockapi.io/cart", obj)
+        setCartItems(prev => [...prev, obj])
+      }
   }
 
   const onAddToFavorite = (obj) => {
@@ -63,9 +68,10 @@ function App() {
         <Header toggleSideCart={toggleSideCart}/>
         <Routes>
           <Route path="/" element={
-            <Home 
+            <Home
               items={items} 
-              searchValue={searchValue} 
+              searchValue={searchValue}
+              cartItems={cartItems}
               onChangeSearchInput={onChangeSearchInput} 
               onAddToCart={onAddToCart}
               onAddToFavorite={onAddToFavorite}
