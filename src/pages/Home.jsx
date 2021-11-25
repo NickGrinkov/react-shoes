@@ -3,8 +3,7 @@ import Card from '../components/Card/Card';
 
 function Home({searchValue, 
       onChangeSearchInput, 
-      items, 
-      cartItems, 
+      items,
       onAddToCart, 
       onAddToFavorite, 
       isLoading
@@ -15,7 +14,7 @@ function Home({searchValue,
      return (isLoading ? [...Array(8)] : filteredItems).map((item, index) => (
             <Card
               onAddToCart={onAddToCart}
-              key={item && item.id}
+              key={index}
               card={item}
               onFavorite={onAddToFavorite}
               loading={isLoading} 

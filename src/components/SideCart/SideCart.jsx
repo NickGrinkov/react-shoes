@@ -1,7 +1,35 @@
-import React from "react";
+import React, {useState, useContext} from "react";
+import AppContext from "../../context";
+import axios from "axios";
+
+import Info from "../Info";
+
 import styles from './SideCart.module.scss'
 
 function SideCart({ toggleSideCart, visible, items, onRemove }) {
+  const [isOrdered, setIsOrdered] = useState(false)
+  const [orderId, setOrderId] = useState('')
+  const {cartItems, setCartItems} = useContext(AppContext)
+
+  
+  
+  const onClickOrder = async () => {
+    try {
+      const {data} = await axios.post('https://619dbd59131c600017088fe7.mockapi.io/orders', {
+        items: cartItems
+      })
+      setOrderId(data.id)
+      setIsOrdered(true)
+      setCartItems([])
+      for(let i = 0; i < cartItems.length; i++) {
+          const item = cartItems[i]
+          await axios.delete('https://619dbd59131c600017088fe7.mockapi.io/cart/' + item.id)
+      }
+    } catch(error) {
+      alert('Не удалось формить заказ')
+    }
+  }
+      
   return (
     <div style={{ display: !visible ? "none" : "block" }} className={styles.overlay}>
       <div className={styles.cart}>
@@ -46,22 +74,17 @@ function SideCart({ toggleSideCart, visible, items, onRemove }) {
                   <b>1074 руб.</b>
                 </li>
               </ul>
-              <button className="main-btn">
+              <button onClick={onClickOrder} className="main-btn">
                 <span>Оформить заказ</span>
                 <img src="/img/arrow.svg" alt="arrow" />
               </button>
             </div>
           </div>
         ) : (
-          <div className={styles.emty}>
-            <img src="/img/empty-cart.jpg" width="120px" alt="empty" />
-            <h2>Корзина пустая</h2>
-            <p className="">Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ</p>
-            <button className='main-btn back-btn'>
-              <img src="img/arrow.svg" alt="arrow" />
-              Вернуться назад
-            </button>
-          </div>
+          <Info 
+          title={isOrdered ? 'Ваш заказ успешно оформлен' : "Корзина пустая"} 
+          description={isOrdered ? `Номер вашего заказа #${orderId}` : "Добавьте хотя бы одну пару кроссовок, стобы оформить заказ"} 
+          image={isOrdered ? "img/complete-order.jpg" : "img/empty-cart.jpg"}/>
         )}
       </div>
     </div>

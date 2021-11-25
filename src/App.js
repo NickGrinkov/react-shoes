@@ -38,7 +38,7 @@ function App() {
 
   const onRemoveCartItem = (obj) => {
     axios.delete(`https://619dbd59131c600017088fe7.mockapi.io/cart/${obj.id}`)
-    setCartItems(prev => prev.filter((item) => item !== obj))
+    setCartItems(prev => prev.filter(item => item !== obj))
   }
 
   const onAddToCart = (obj) => {
@@ -69,7 +69,7 @@ function App() {
   }
   
   return (
-    <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded, onAddToFavorite}}>
+    <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded, onAddToFavorite, setvisible, setCartItems}}>
     <div className="wrapper">
         {
           visible && <SideCart onRemove={(obj) => onRemoveCartItem(obj)} items={cartItems} visible={visible} toggleSideCart={toggleSideCart}/>
