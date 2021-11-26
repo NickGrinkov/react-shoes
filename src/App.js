@@ -23,7 +23,6 @@ function App() {
       const favoritesResponse = await  axios.get("https://619dbd59131c600017088fe7.mockapi.io/favorites")
 
       setIsLoading(false)
-
       setCartItems(cartItemsResponse.data)
       setFavorites(favoritesResponse.data)
       setItems(itemsResponse.data)
@@ -37,23 +36,32 @@ function App() {
   }
 
   const onRemoveCartItem = (obj) => {
-    axios.delete(`https://619dbd59131c600017088fe7.mockapi.io/cart/${obj.id}`)
-    setCartItems(prev => prev.filter(item => item !== obj))
+    try {
+      axios.delete(`https://619dbd59131c600017088fe7.mockapi.io/cart/${obj.id}`)
+      setCartItems(prev => prev.filter(item => item.id !== obj.id))
+    } catch(error) {
+      alert('Не удалось удалить товар из корзины')
+    }    
   }
 
-  const onAddToCart = (obj) => {
-      if(cartItems.includes(obj)) {
-        onRemoveCartItem(obj)
+  const onAddToCart = async (obj) => {
+    try {
+      if(cartItems.find(item => item.id === obj.id)) {
+        await axios.delete(`https://619dbd59131c600017088fe7.mockapi.io/cart/${obj.id}`)
+        setCartItems(prev => prev.filter(item => item.id !== obj.id))
       } else {
-        axios.post("https://619dbd59131c600017088fe7.mockapi.io/cart", obj)
+        await axios.post("https://619dbd59131c600017088fe7.mockapi.io/cart", obj)
         setCartItems(prev => [...prev, obj])
-      }
+      } 
+    } catch(error) {
+        alert('Произошла ошибка')
+    }
   }
 
   const onAddToFavorite = (obj) => {
-    if(favorites.includes(obj)) {
+    if(favorites.find(item => item.id === obj.id)) {
         axios.delete(`https://619dbd59131c600017088fe7.mockapi.io/favorites/${obj.id}`)
-        setFavorites(prev => prev.filter(item => item !== obj))
+        setFavorites(prev => prev.filter(item => item.id !== obj.id))
     } else {
         axios.post("https://619dbd59131c600017088fe7.mockapi.io/favorites", obj)
         setFavorites(prev => [...prev, obj])
@@ -74,7 +82,7 @@ function App() {
         {
           visible && <SideCart onRemove={(obj) => onRemoveCartItem(obj)} items={cartItems} visible={visible} toggleSideCart={toggleSideCart}/>
         }   
-        <Header toggleSideCart={toggleSideCart}/>
+        <Header toggleSideCart={toggleSideCart} cartItems={cartItems}/>
         <Routes>
           <Route path="/" element={
             <Home
@@ -82,7 +90,7 @@ function App() {
               searchValue={searchValue}
               cartItems={cartItems}
               onChangeSearchInput={onChangeSearchInput} 
-              onAddToCart={onAddToCart}
+              onAddToCart={(obj) => onAddToCart(obj)}
               isLoading={isLoading}
               />
           }/>

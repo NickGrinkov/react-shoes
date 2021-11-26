@@ -6,12 +6,13 @@ import Info from "../Info";
 
 import styles from './SideCart.module.scss'
 
+
 function SideCart({ toggleSideCart, visible, items, onRemove }) {
   const [isOrdered, setIsOrdered] = useState(false)
   const [orderId, setOrderId] = useState('')
   const {cartItems, setCartItems} = useContext(AppContext)
 
-  
+  const totalPrice = cartItems.reduce((sum, obj) => obj.price + sum, 0)
   
   const onClickOrder = async () => {
     try {
@@ -26,7 +27,7 @@ function SideCart({ toggleSideCart, visible, items, onRemove }) {
           await axios.delete('https://619dbd59131c600017088fe7.mockapi.io/cart/' + item.id)
       }
     } catch(error) {
-      alert('Не удалось формить заказ')
+      alert('Не удалось оформить заказ')
     }
   }
       
@@ -66,12 +67,12 @@ function SideCart({ toggleSideCart, visible, items, onRemove }) {
                 <li>
                   <span>Итого:</span>
                   <div></div>
-                  <b>21498 руб.</b>
+                  <b>{totalPrice} руб.</b>
                 </li>
                 <li>
                   <span>Налог 5%</span>
                   <div></div>
-                  <b>1074 руб.</b>
+                  <b>{Math.round(totalPrice * 0.05)} руб.</b>
                 </li>
               </ul>
               <button onClick={onClickOrder} className="main-btn">

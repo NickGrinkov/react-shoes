@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Header({ toggleSideCart }) {
+function Header({ toggleSideCart, cartItems }) {
+  const totalPrice = cartItems.reduce((sum, obj) => obj.price + sum, 0)
+  
   return (
     <header className="header">
       <Link to="/">
@@ -21,7 +23,7 @@ function Header({ toggleSideCart }) {
           src="/img/cart.svg"
           alt="cart"
         />
-        <span onClick={toggleSideCart}>1200 руб.</span>
+        <span onClick={toggleSideCart}>{totalPrice} руб.</span>
         <Link to="/favorites">
           <img
             style={{ marginRight: "10px" }}
