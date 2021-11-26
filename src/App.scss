@@ -54,9 +54,13 @@ a {
     }
   }
 }
-.main {
+
+.main, .favorites, .orders {
   padding: 0 40px;
   margin: 0 auto;
+}
+
+.main {
   &__header {
     display: flex;
     justify-content: space-between;
@@ -76,10 +80,9 @@ a {
     }
   }
   .shoes {
-    display: grid;
-    align-self: center;
-    align-items: center;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 }
 

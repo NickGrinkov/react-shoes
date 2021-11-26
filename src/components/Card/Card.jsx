@@ -8,6 +8,7 @@ function Card({
   onAddToCart,
   favorited = false,
   loading = false,
+  none
 }) {
 
   const { isItemAdded, onAddToFavorite } = useContext(AppContext)
@@ -22,7 +23,8 @@ function Card({
     setIsFavorite(!isFavorite);
   };
   return (
-    <div className={styles.card}>
+    <div className={styles.card} 
+         style={{ marginRight: none ? '40px' : null}}>
       {loading ? (
         <ContentLoader
           speed={2}
@@ -40,12 +42,13 @@ function Card({
           <rect x="165" y="186" rx="5" ry="5" width="28" height="28" />
         </ContentLoader>
       ) : (
-        <>
+        <div>
           <img
             onClick={onClickFavorite}
             className={styles.favorite}
             src={isFavorite ? "/img/liked.svg" : "/img/unliked.svg"}
             alt="heart"
+            style={{ display: none ? 'none' : 'block' }}
           />
           <img width={133} height={112} src={card.imageUrl} alt="shoes" />
           <p>{card.name}</p>
@@ -59,9 +62,10 @@ function Card({
               className={styles.add}
               src={isItemAdded(card.id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"}
               alt="add-btn"
+              style={{ display: none ? 'none' : 'block' }}
             />
           </div>
-        </>
+        </div>
       )}
     </div>
   );

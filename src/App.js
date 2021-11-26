@@ -5,6 +5,7 @@ import AppContext from "./context";
 import Header from './pages/Header';
 import Home from './pages/Home';
 import Favorites from "./pages/Favorites";
+import Orders from "./pages/Orders";
 import SideCart from './components/SideCart/SideCart';
 import "./App.scss";
 
@@ -95,6 +96,7 @@ function App() {
               />
           }/>
           <Route path="/favorites" element={<Favorites/>}/>
+          <Route path="/orders" element={<Orders/>}/>
         </Routes>
     </div>
     </AppContext.Provider>

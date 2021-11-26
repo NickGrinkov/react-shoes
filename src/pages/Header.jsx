@@ -34,7 +34,13 @@ function Header({ toggleSideCart, cartItems }) {
             alt="heart"
           />
         </Link>
-        <img width={20} height={20} src="/img/user.svg" alt="user" />
+        <Link to="/orders">
+          <img 
+            width={20} 
+            height={20} 
+            src="/img/user.svg" 
+            alt="user" />
+        </Link>
       </div>
     </header>
   );
