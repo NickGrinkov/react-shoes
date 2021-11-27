@@ -3,7 +3,7 @@ import AppContext from "../context";
 
 function Info( {image, title, description} ) {
 
- const { setvisible } = useContext(AppContext)
+ const { setvisibleCart } = useContext(AppContext)
   return (
     <div className="empty">
       <img src={image} width="120px" alt="empty" />
@@ -11,7 +11,7 @@ function Info( {image, title, description} ) {
       <p>
         {description}
       </p>
-      <button onClick={() => setvisible(false)} className="main-btn back-btn">
+      <button onClick={() => setvisibleCart(false)} className="main-btn back-btn">
         <img src="img/arrow.svg" alt="arrow" />
         Вернуться назад
       </button>

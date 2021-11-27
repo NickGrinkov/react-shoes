@@ -8,11 +8,11 @@ function Card({
   onAddToCart,
   favorited = false,
   loading = false,
-  none
+  none,
+  changeStyle
 }) {
 
-  const { isItemAdded, onAddToFavorite } = useContext(AppContext)
-  const [isFavorite, setIsFavorite] = useState(favorited);
+  const { isItemAdded, onAddToFavorite, cartItems, favorites } = useContext(AppContext)
 
   const onClickAdd = () => {
     onAddToCart(card);
@@ -20,11 +20,9 @@ function Card({
 
   const onClickFavorite = () => {
     onAddToFavorite(card);
-    setIsFavorite(!isFavorite);
   };
   return (
-    <div className={styles.card} 
-         style={{ marginRight: none ? '40px' : null}}>
+    <div className={styles.card} >
       {loading ? (
         <ContentLoader
           speed={2}
@@ -46,7 +44,7 @@ function Card({
           <img
             onClick={onClickFavorite}
             className={styles.favorite}
-            src={isFavorite ? "/img/liked.svg" : "/img/unliked.svg"}
+            src={isItemAdded(card.itemId, favorites) ? "/img/liked.svg" : "/img/unliked.svg"}
             alt="heart"
             style={{ display: none ? 'none' : 'block' }}
           />
@@ -57,13 +55,13 @@ function Card({
               <span>Цена:</span>
               <b>{card.price} руб.</b>
             </div>
-            <img
-              onClick={onClickAdd}
-              className={styles.add}
-              src={isItemAdded(card.id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"}
-              alt="add-btn"
-              style={{ display: none ? 'none' : 'block' }}
-            />
+              <img
+                onClick={onClickAdd}
+                className={styles.add}
+                src={isItemAdded(card.itemId, cartItems) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"}
+                alt="add-btn"
+                style={{ display: none || changeStyle ? 'none' : 'block' }}
+              />
           </div>
         </div>
       )}

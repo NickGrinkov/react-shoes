@@ -8,13 +8,14 @@ function Favorites( ) {
   return (
     <div className="favorites">
       <h1 style={{ color: '#e58c8c' }} >Все закладки</h1>
-      <div className="shoes">
+      <div style={{ display: 'flex'}} className="shoes">
         {favorites
           .map((card) => (
             <Card
               key={card.id}
               card={card}
               favorited={true}
+              changeStyle={true}
             />
           ))}
       </div>

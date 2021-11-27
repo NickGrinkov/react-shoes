@@ -13,76 +13,97 @@ function App() {
   const [items, setItems] = useState([])
   const [cartItems, setCartItems] = useState([])
   const [favorites, setFavorites] = useState([])
-  const [visible, setvisible] = useState(false)
+  const [visiblecart, setvisibleCart] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     async function fetchData() {
-      const itemsResponse  = await axios.get("https://619dbd59131c600017088fe7.mockapi.io/items")
-      const cartItemsResponse  = await axios.get("https://619dbd59131c600017088fe7.mockapi.io/cart")
-      const favoritesResponse = await  axios.get("https://619dbd59131c600017088fe7.mockapi.io/favorites")
+      try {
+        const [itemsResponse, cartItemsResponse, favoritesResponse] = await Promise.all([
+          axios.get("https://619dbd59131c600017088fe7.mockapi.io/items"),
+          axios.get("https://619dbd59131c600017088fe7.mockapi.io/cart"),
+          axios.get("https://619dbd59131c600017088fe7.mockapi.io/favorites"),
+        ])
 
-      setIsLoading(false)
-      setCartItems(cartItemsResponse.data)
-      setFavorites(favoritesResponse.data)
-      setItems(itemsResponse.data)
+        setIsLoading(false)
+        setCartItems(cartItemsResponse.data)
+        setFavorites(favoritesResponse.data)
+        setItems(itemsResponse.data)
+      } catch(error) {
+        alert('Ошибка при запросе данных')
+        console.error(error);
+      }  
     }
-
     fetchData()
   }, [])
 
   const toggleSideCart = () => {
-    setvisible(!visible)
+    setvisibleCart(!visiblecart)
   }
 
   const onRemoveCartItem = (obj) => {
     try {
       axios.delete(`https://619dbd59131c600017088fe7.mockapi.io/cart/${obj.id}`)
-      setCartItems(prev => prev.filter(item => item.id !== obj.id))
+      setCartItems(prev => prev.filter(item => Number(item.id) !== Number(obj.id)))
     } catch(error) {
-      alert('Не удалось удалить товар из корзины')
+      alert('Ошибка при удалении из корзины')
+      console.error(error);
     }    
   }
 
   const onAddToCart = async (obj) => {
+    const findItem = cartItems.find(item => Number(item.itemId) === Number(obj.id))
     try {
-      if(cartItems.find(item => item.id === obj.id)) {
-        await axios.delete(`https://619dbd59131c600017088fe7.mockapi.io/cart/${obj.id}`)
-        setCartItems(prev => prev.filter(item => item.id !== obj.id))
+      if(findItem) {
+        setCartItems(prev => prev.filter(item => Number(item.itemId) !== Number(obj.id)))
+        await axios.delete(`https://619dbd59131c600017088fe7.mockapi.io/cart/${findItem.id}`)
       } else {
-        await axios.post("https://619dbd59131c600017088fe7.mockapi.io/cart", obj)
-        setCartItems(prev => [...prev, obj])
+        const {data} = await axios.post("https://619dbd59131c600017088fe7.mockapi.io/cart", obj)
+        setCartItems(prev => [...prev, data])
       } 
     } catch(error) {
-        alert('Произошла ошибка')
+        alert('Ошибка при добавлении в корзину')
+        console.error(error);
     }
   }
 
-  const onAddToFavorite = (obj) => {
-    if(favorites.find(item => item.id === obj.id)) {
-        axios.delete(`https://619dbd59131c600017088fe7.mockapi.io/favorites/${obj.id}`)
-        setFavorites(prev => prev.filter(item => item.id !== obj.id))
-    } else {
-        axios.post("https://619dbd59131c600017088fe7.mockapi.io/favorites", obj)
-        setFavorites(prev => [...prev, obj])
-    }
+  const onAddToFavorite = async (obj) => {
+    const findFavorite = favorites.find(item => Number(item.id) === Number(obj.id))
+    try {
+      if(findFavorite) {
+        setFavorites(prev => prev.filter(item => Number(item.itemId) !== Number(obj.id)))
+        await axios.delete(`https://619dbd59131c600017088fe7.mockapi.io/favorites/${findFavorite.id}`)  
+      } else {
+          const {data} = await axios.post("https://619dbd59131c600017088fe7.mockapi.io/favorites", obj)
+          setFavorites(prev => [...prev, data])
+      }
+    } catch(error) {
+        console.error(error);
+      }
   }
 
   const onChangeSearchInput = (e) => {
     setSearchValue(e.target.value)
   }
 
-  const isItemAdded = (id) => {
-    return cartItems.some(obj => Number(obj.id)  === Number(id))
+  // const isItemAdded = (id) => {
+  //   return cartItems.some(obj => Number(obj.itemId) === Number(id))
+  // }
+
+  const isItemAdded = (id, array) => {
+    return array.some(obj => Number(obj.itemId) === Number(id))
   }
   
   return (
-    <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded, onAddToFavorite, setvisible, setCartItems}}>
+    <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded, onAddToFavorite, setvisibleCart, setCartItems}}>
     <div className="wrapper">
-        {
-          visible && <SideCart onRemove={(obj) => onRemoveCartItem(obj)} items={cartItems} visible={visible} toggleSideCart={toggleSideCart}/>
-        }   
+        <SideCart 
+          onRemove={(obj) => onRemoveCartItem(obj)} 
+          items={cartItems} visible={visiblecart} 
+          toggleSideCart={toggleSideCart}
+          opened={visiblecart}
+        />  
         <Header toggleSideCart={toggleSideCart} cartItems={cartItems}/>
         <Routes>
           <Route path="/" element={

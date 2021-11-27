@@ -7,7 +7,7 @@ import Info from "../Info";
 import styles from './SideCart.module.scss'
 
 
-function SideCart({ toggleSideCart, visible, items, onRemove }) {
+function SideCart({ toggleSideCart, visible, items, onRemove, opened }) {
   const [isOrdered, setIsOrdered] = useState(false)
   const [orderId, setOrderId] = useState('')
   const {cartItems, setCartItems} = useContext(AppContext)
@@ -24,7 +24,7 @@ function SideCart({ toggleSideCart, visible, items, onRemove }) {
       setCartItems([])
       for(let i = 0; i < cartItems.length; i++) {
           const item = cartItems[i]
-          await axios.delete('https://619dbd59131c600017088fe7.mockapi.io/cart/' + item.id)
+          await axios.delete('https://619dbd59131c600017088fe7.mockapi.io/cart/' + item.itemId)
       }
     } catch(error) {
       alert('Не удалось оформить заказ')
@@ -32,7 +32,7 @@ function SideCart({ toggleSideCart, visible, items, onRemove }) {
   }
       
   return (
-    <div style={{ display: !visible ? "none" : "block" }} className={styles.overlay}>
+    <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
       <div className={styles.cart}>
         <div className={styles.cart__top}>
           <h3>Корзина</h3>
