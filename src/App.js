@@ -69,16 +69,17 @@ function App() {
   }
 
   const onAddToFavorite = async (obj) => {
-    const findFavorite = favorites.find(item => Number(item.id) === Number(obj.id))
+    const findFavorite = favorites.find(favObj => Number(favObj.itemId) === Number(obj.itemId)) 
     try {
       if(findFavorite) {
-        setFavorites(prev => prev.filter(item => Number(item.itemId) !== Number(obj.id)))
+        setFavorites(prev => prev.filter(item => Number(item.itemId) !== Number(obj.itemId)))
         await axios.delete(`https://619dbd59131c600017088fe7.mockapi.io/favorites/${findFavorite.id}`)  
       } else {
           const {data} = await axios.post("https://619dbd59131c600017088fe7.mockapi.io/favorites", obj)
           setFavorites(prev => [...prev, data])
       }
     } catch(error) {
+        alert('Ошибка при добавлении в избранное')
         console.error(error);
       }
   }
@@ -87,16 +88,20 @@ function App() {
     setSearchValue(e.target.value)
   }
 
-  // const isItemAdded = (id) => {
-  //   return cartItems.some(obj => Number(obj.itemId) === Number(id))
-  // }
-
   const isItemAdded = (id, array) => {
     return array.some(obj => Number(obj.itemId) === Number(id))
   }
   
   return (
-    <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded, onAddToFavorite, setvisibleCart, setCartItems}}>
+    <AppContext.Provider value={{ 
+      items, 
+      cartItems, 
+      favorites, 
+      isItemAdded, 
+      onAddToFavorite, 
+      onAddToCart, 
+      setvisibleCart, 
+      setCartItems}}>
     <div className="wrapper">
         <SideCart 
           onRemove={(obj) => onRemoveCartItem(obj)} 
@@ -111,8 +116,7 @@ function App() {
               items={items} 
               searchValue={searchValue}
               cartItems={cartItems}
-              onChangeSearchInput={onChangeSearchInput} 
-              onAddToCart={(obj) => onAddToCart(obj)}
+              onChangeSearchInput={onChangeSearchInput}
               isLoading={isLoading}
               />
           }/>

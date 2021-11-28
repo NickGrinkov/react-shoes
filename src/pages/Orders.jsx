@@ -11,7 +11,7 @@ function Orders() {
     const fetchData = async () => {
       try {
         const {data}  = await axios.get("https://619dbd59131c600017088fe7.mockapi.io/orders")
-        setOrders(data)
+        setOrders(data);
         setIsLoading(false)
       } catch(error) {
         alert('Ошибка при запросе заказов')
@@ -21,7 +21,7 @@ function Orders() {
     fetchData()
   }, [])
 
-  
+
   return (
     <div className="orders">
       <h1 >Мои заказы</h1>

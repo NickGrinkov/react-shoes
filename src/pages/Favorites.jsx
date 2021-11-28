@@ -4,7 +4,6 @@ import AppContext from '../context';
 
 function Favorites( ) {
   const {favorites} = useContext(AppContext)
-
   return (
     <div className="favorites">
       <h1 style={{ color: '#e58c8c' }} >Все закладки</h1>
