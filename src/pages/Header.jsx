@@ -16,14 +16,17 @@ function Header({ toggleSideCart, cartItems }) {
         </div>
       </Link>
       <div className="header__right">
-        <img
-          style={{ marginRight: "7px" }}
-          width={20}
-          height={20}
-          src="/img/cart.svg"
-          alt="cart"
-        />
-        <span onClick={toggleSideCart}>{totalPrice} руб.</span>
+        <div>
+          <img
+            style={{ marginRight: "7px" }}
+            onClick={toggleSideCart}
+            width={20}
+            height={20}
+            src="/img/cart.svg"
+            alt="cart"
+          />
+          <span>{totalPrice} руб.</span>
+        </div>
         <Link to="/favorites">
           <img
             style={{ marginRight: "10px" }}
